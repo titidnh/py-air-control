@@ -91,7 +91,7 @@ class CoAPAirClient(HTTPAirClientBase):
 
     def _sync(self):
         self.syncrequest = binascii.hexlify(os.urandom(4)).decode("utf8").upper()
-        resp = self.client.post("/sys/dev/sync", self.syncrequest, timeout=10)
+        resp = self.client.post("/sys/dev/sync", self.syncrequest, timeout=15)
         if resp:
             self.client_key = resp.payload
         else:
@@ -174,7 +174,7 @@ class CoAPAirClient(HTTPAirClientBase):
                 }
             }
             encrypted_payload = self._encrypt_payload(json.dumps(payload))
-            response = self.client.post(path, encrypted_payload, timeout=10)
+            response = self.client.post(path, encrypted_payload, timeout=15)
             if self.debug:
                 print(response)
             return response.payload == '{"status":"success"}'
